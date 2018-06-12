@@ -76,7 +76,7 @@ nav h1 a {
   text-transform: uppercase;
 }
 #breadcrumb {
-    padding: 10px 40px 16px;
+    padding: 0.5em 1em 0.5em;
     list-style: none;
     background-color: #eee;
     font-size: 2em;
@@ -215,11 +215,14 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
+/*  height: 87%;
   position: fixed;
   right: 0;
   top: 80px;
-  width: 50%;
+  width: 50%;*/
+  height: 45vh;
+  position: relative;
+  width: 100%;
 }
 .inside #map {
   background-color: #ccc;
@@ -227,9 +230,12 @@ nav h1 a {
   width: 100%;
 }
 .inside #footer {
-  bottom: 0;
-  position: absolute;
-  width: 50%;
+  /*bottom: 0;*/
+  /*position: absolute;*/
+  /*width: 50%;*/
+  position: relative;
+  top: 14vh;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -263,8 +269,9 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  /*padding: 140px 40px 30px;*/
+  padding: 2em 4em;
+  /*width: 50%;*/
 }
 #reviews-container {
   padding: 30px 40px 80px;
