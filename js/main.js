@@ -79,7 +79,12 @@ window.initMap = () => {
     zoom: 12,
     center: loc,
     scrollwheel: false
-  });
+  }) 
+  google.maps.event.addListener(self.map, "tilesloaded", function(){
+      [].slice.apply(document.querySelectorAll('#map div')).forEach(function(item) {
+          item.setAttribute('tabindex','-1');
+      });
+  })  
   updateRestaurants();
 }
 
@@ -137,12 +142,17 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
+  const picture = document.createElement('picture');
   const image = document.createElement('img');
+  const source = document.createElement('source');  
+  source.media = '(min-width: 400px) and (max-width: 768px)';
+  source.srcset = `img/${restaurant.id}.jpg 1x, img/${restaurant.id}-1600x1200.jpg 2x`;
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.alt = `image of ${restaurant.name} restaurant`;
-  li.append(image);
+  picture.append(source);
+  picture.append(image);
+  li.append(picture);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
