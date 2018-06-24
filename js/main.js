@@ -154,8 +154,9 @@ createRestaurantHTML = (restaurant) => {
   picture.append(image);
   li.append(picture);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+  name.id = `heading${restaurant.id}`;
   li.append(name);
 
   const neighborhood = document.createElement('p');
@@ -168,6 +169,10 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
+  // more.role = "button";
+  // more.setAttribute('role', "button");
+  // more.name = 'hi';
+  // more.setAttribute('aria-labelledby', `heading${restaurant.id}`);
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
