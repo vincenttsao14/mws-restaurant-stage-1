@@ -80,12 +80,14 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   }) 
-  google.maps.event.addListener(self.map, "tilesloaded", function(){
-      [].slice.apply(document.querySelectorAll('#map div')).forEach(function(item) {
-          item.setAttribute('tabindex','-1');
-      });
-  })  
   updateRestaurants();
+  setTimeout(() => {
+    let map = document.querySelector('.gm-style').getElementsByTagName('*');
+    let array = Array.from(map);    
+    array.map(elem => {
+      elem.tabIndex = -1;
+    })
+  }, 2000);  
 }
 
 /**
