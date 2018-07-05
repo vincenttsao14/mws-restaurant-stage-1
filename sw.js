@@ -1,4 +1,4 @@
-let staticCacheName = 'restaurant-app-v2';
+let staticCacheName = 'restaurant-app-v3';
 
 self.addEventListener('install', function(event) {
   let urlsToCache = [
