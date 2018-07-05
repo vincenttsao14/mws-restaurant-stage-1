@@ -21,11 +21,13 @@
     </section>
     <section>
       <div class="filter-options">
-        <h2 id="filter">Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" aria-labelledby="filter" onchange="updateRestaurants()">
+        <h2>Filter Results</h2>
+        <p id="neighborhoodFilter" hidden aria-hidden="true">filter by neighborhood</p>
+        <p id="cuisineFilter" hidden aria-hidden="true">filter by cuisine</p>
+        <select id="neighborhoods-select" name="neighborhoods" aria-labelledby="neighborhoodFilter" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" aria-labelledby="filter" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" aria-labelledby="cuisineFilter" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>

@@ -17,6 +17,13 @@ window.initMap = () => {
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
+    setTimeout(() => {
+      let map = document.querySelector('.gm-style').getElementsByTagName('*');
+      let array = Array.from(map);    
+      array.map(elem => {
+        elem.tabIndex = -1;
+      })
+    }, 2000);      
   });
 }
 
