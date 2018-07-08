@@ -2,6 +2,7 @@ let staticCacheName = 'restaurant-app-v3';
 
 self.addEventListener('install', function(event) {
   let urlsToCache = [
+  	'/',
 	'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2',
 	'https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc4.woff2',
 	'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
@@ -66,7 +67,7 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-  	caches.match(event.request).then(response => {
+  	caches.match(event.request, {ignoreSearch: true}).then(response => {
   		if (response) {
   			// console.log(event.request);
   			return response;
