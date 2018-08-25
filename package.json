@@ -16,6 +16,7 @@
     "grunt-resize-crop": "0.0.1"
   },
   "dependencies": {
-    "grunt-responsive-images": "^0.1.6"
+    "grunt-responsive-images": "^0.1.6",
+    "idb": "^2.1.3"
   }
 }
