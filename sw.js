@@ -6,7 +6,7 @@ self.addEventListener('install', function(event) {
 	'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2',
 	'https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc4.woff2',
 	'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
-	'data/restaurants.json',
+	// 'data/restaurants.json',
 	'img/1.jpg',
 	'img/2.jpg',
 	'img/3.jpg',
@@ -40,6 +40,8 @@ self.addEventListener('install', function(event) {
 	'css/styles.css',
 	'js/dbhelper.js',
 	'js/main.js',
+	'js/idb.js',
+	'js/restaurant_info.js',
 	'index.html',
 	'restaurant.html'
   ];
