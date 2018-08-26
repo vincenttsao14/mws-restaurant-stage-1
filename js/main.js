@@ -87,6 +87,11 @@ window.initMap = () => {
     array.map(elem => {
       elem.tabIndex = -1;
     })
+    let mapImg = document.querySelector('.gm-style').getElementsByTagName('img');
+    let arrayImg = Array.from(mapImg);    
+    arrayImg.map(elem => {
+      elem.alt = 'google map icon';
+    })    
   }, 2000);  
 }
 
