@@ -44,7 +44,6 @@ class DBHelper {
           reviewsResponse.forEach(function(review) {
             store.put(review);
           });
-          console.log(response, reviewsResponse);            
           callback(null, response, reviewsResponse);                  
         });        
       }).then(function() {

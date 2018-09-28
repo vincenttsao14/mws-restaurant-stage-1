@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       console.log(error);
     } else {
       fillBreadcrumb();
-      console.log('init')
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
@@ -111,15 +110,51 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.reviews) => {
-  console.log('reviews', reviews)
+fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
+  console.log('reviews', reviews, restaurant)
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+  const name = document.createElement('input');
+  name.name = 'name';
+  name.placeholder = 'Name';
+  name.style.display = 'block';
+  container.appendChild(name);
+  const rating = document.createElement('input');
+  rating.name = 'rating';
+  rating.placeholder = 'Rating (1-5)';
+  rating.style.minWidth = '100px';
+  rating.type = 'number';  
+  rating.max = 5;
+  rating.min = 1;
+  rating.style.display = 'block';  
+  container.appendChild(rating);
+  const comment = document.createElement('textarea');
+  comment.name = 'comments';
+  comment.placeholder = 'Comment';
+  comment.style.display = 'block';
+  comment.rows = 4;    
+  container.appendChild(comment);
   const review = document.createElement('button');
+  review.type = 'submit'
   review.innerHTML = 'Add Review';
   review.style.margin = '0 0 1em 0';
+  review.onclick = (e) => {
+    fetch('http://localhost:1337/reviews', {
+      method: 'POST',
+      body: JSON.stringify({
+        "restaurant_id": restaurant.id,
+        "name": 'hi',
+        "rating": 'hi',
+        "comments": 'hi'
+      })
+    }).then(response => {
+      return response.json();
+    }).then(data => {
+      console.log('send form data', data)
+    })
+  };  
   container.appendChild(review);
 
   if (!reviews) {
@@ -144,9 +179,9 @@ createReviewHTML = (review) => {
   name.innerHTML = review.name;
   li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = new Date(review.updatedAt);
-  li.appendChild(date);
+  // const date = document.createElement('p');
+  // date.innerHTML = new Date(review.updatedAt);
+  // li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
