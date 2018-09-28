@@ -1,36 +1,34 @@
 let restaurant;
 var map;
 
-/**
- * Initialize Google map, called from HTML.
- */
-window.initMap = () => {
+document.addEventListener('DOMContentLoaded', (event) => {
   fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
+    if (error) { //Got an error!
+      console.log(error);
     } else {
+      fillBreadcrumb();
+      console.log('init')
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-    setTimeout(() => {
-      let map = document.querySelector('.gm-style').getElementsByTagName('*');
-      let array = Array.from(map);    
-      array.map(elem => {
-        elem.tabIndex = -1;
-      })
-      let mapImg = document.querySelector('.gm-style').getElementsByTagName('img');
-      let arrayImg = Array.from(mapImg);    
-      arrayImg.map(elem => {
-        elem.alt = 'google map icon';
-      })          
-    }, 2000);      
+      setTimeout(() => {
+        let map = document.querySelector('.gm-style').getElementsByTagName('*');
+        let array = Array.from(map);    
+        array.map(elem => {
+          elem.tabIndex = -1;
+        })
+        let mapImg = document.querySelector('.gm-style').getElementsByTagName('img');
+        let arrayImg = Array.from(mapImg);    
+        arrayImg.map(elem => {
+          elem.alt = 'google map icon';
+        })          
+      }, 2000);
+    }          
   });
-}
+});
 
 /**
  * Get current restaurant from page URL.
@@ -45,8 +43,9 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+    DBHelper.fetchRestaurantById(id, (error, restaurant, reviews) => {
       self.restaurant = restaurant;
+      self.reviews = reviews;
       if (!restaurant) {
         console.error(error);
         return;
@@ -112,11 +111,16 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
+  console.log('reviews', reviews)
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+  const review = document.createElement('button');
+  review.innerHTML = 'Add Review';
+  review.style.margin = '0 0 1em 0';
+  container.appendChild(review);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -141,7 +145,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = new Date(review.updatedAt);
   li.appendChild(date);
 
   const rating = document.createElement('p');

@@ -205,7 +205,7 @@ nav h1 a {
   font-size: 1.25em;
   /*font-size: 11pt;*/
 }
-#restaurants-list li a, #restaurants-list li button {
+#restaurants-list li a, #restaurants-list li button, #reviews-container button {
   background-color: orange;
   border-bottom: 3px solid #eee;
   color: black;

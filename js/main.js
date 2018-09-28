@@ -58,13 +58,13 @@ fetchCuisines = () => {
  */
 fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
-
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
   });
+  updateRestaurants();  
 }
 
 /**
@@ -80,7 +80,6 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   }) 
-  updateRestaurants();
   setTimeout(() => {
     let map = document.querySelector('.gm-style').getElementsByTagName('*');
     let array = Array.from(map);    
@@ -190,7 +189,7 @@ createRestaurantHTML = (restaurant) => {
           body: JSON.stringify({is_favorite: true})
       }).then(response => {
         response.json();
-        console.log('favorited', response);
+        // console.log('favorited', response);
       });      
       star.innerHTML = '&#9733';
       favorite.innerHTML = 'Unmark Favorite';
@@ -200,7 +199,7 @@ createRestaurantHTML = (restaurant) => {
           body: JSON.stringify({is_favorite: false})          
       }).then(response => {
         response.json();
-        console.log('unfavorited', response);
+        // console.log('unfavorited', response);
       });        
       star.innerHTML = '&#9734';
       favorite.innerHTML = 'Mark Favorite';      
