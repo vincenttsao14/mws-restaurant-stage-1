@@ -178,9 +178,44 @@ createRestaurantHTML = (restaurant) => {
   more.innerHTML = 'View Details';
   more.setAttribute('aria-label', `view restaurant details of ${restaurant.name}`);
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  const favorite = document.createElement('button');
+  favorite.style.marginLeft = '10px';
+  favorite.innerHTML = restaurant.is_favorite ? 'Unmark Favorite' : 'Mark Favorite';
+  favorite.setAttribute('aria-label', `mark ${restaurant.name} as a favorite restaurant`);
+  favorite.onclick = (e) => {
+    let star = e.target.nextSibling;
+    if (star.innerHTML === '☆') {
+      fetch(`http://localhost:1337/restaurants/${restaurant.id}`, {
+          method: 'PUT',
+          body: JSON.stringify({is_favorite: true})
+      }).then(response => {
+        response.json();
+        console.log('favorited', response);
+      });      
+      star.innerHTML = '&#9733';
+      favorite.innerHTML = 'Unmark Favorite';
+    } else {
+      fetch(`http://localhost:1337/restaurants/${restaurant.id}`, {
+          method: 'PUT',
+          body: JSON.stringify({is_favorite: false})          
+      }).then(response => {
+        response.json();
+        console.log('unfavorited', response);
+      });        
+      star.innerHTML = '&#9734';
+      favorite.innerHTML = 'Mark Favorite';      
+    }
+  };  
+  const favoriteStar = document.createElement('span');
+  favoriteStar.style.fontSize = '3rem';
+  favoriteStar.style.float = 'right';
+  favoriteStar.style.lineHeight = 1;
+  favoriteStar.innerHTML = restaurant.is_favorite ? '&#9733' : '&#9734';
+  li.append(more);
+  li.append(favorite);
+  li.append(favoriteStar);
 
-  return li
+  return li;
 }
 
 /**
