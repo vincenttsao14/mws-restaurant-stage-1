@@ -141,18 +141,21 @@ fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
   review.innerHTML = 'Add Review';
   review.style.margin = '0 0 1em 0';
   review.onclick = (e) => {
+    let review = {
+      "restaurant_id": restaurant.id,
+      "name": 'hi',
+      "rating": 'hi',
+      "comments": 'hi'
+    };
     fetch('http://localhost:1337/reviews', {
       method: 'POST',
-      body: JSON.stringify({
-        "restaurant_id": restaurant.id,
-        "name": 'hi',
-        "rating": 'hi',
-        "comments": 'hi'
-      })
+      body: JSON.stringify(review)
     }).then(response => {
       return response.json();
     }).then(data => {
-      console.log('send form data', data)
+      console.log('send form data', data);
+      let ul = document.getElementById('reviews-list');
+      ul.appendChild(createReviewHTML(review));
     })
   };  
   container.appendChild(review);
