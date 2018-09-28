@@ -36,16 +36,29 @@ class DBHelper {
         response.forEach(function(restaurant) {
           store.put(restaurant);
         });
-        fetch(DBHelper.REVIEWS_URL).then(reviewsResponse => {
-          return reviewsResponse.json();
-        }).then(reviewsResponse => {
-          var tx = db.transaction('reviews', 'readwrite');
-          var store = tx.objectStore('reviews');
-          reviewsResponse.forEach(function(review) {
-            store.put(review);
-          });
-          callback(null, response, reviewsResponse);                  
-        });        
+        let reviewsPromise = new Promise(resolve => {
+          let i = 0;
+          var arr1 = [];      
+          for (let restaurant of response) {
+            fetch(DBHelper.REVIEWS_URL+'/?restaurant_id='+restaurant.id).then(reviewsResponse => {
+              return reviewsResponse.json();
+            }).then(reviewsResponse => {
+              arr1 = [...arr1, ...reviewsResponse];                  
+              i++;
+              var tx = db.transaction('reviews', 'readwrite');
+              var store = tx.objectStore('reviews');
+              reviewsResponse.forEach(function(review) {
+                store.put(review);
+              });       
+              if (i === 10) {
+                resolve(arr1);
+              };
+            });            
+          }       
+        })
+        reviewsPromise.then(reviewsResponse => {
+          callback(null, response, reviewsResponse);               
+        })
       }).then(function() {
         console.log('Added restaurants to restaurant IDB');
       });  
@@ -77,21 +90,6 @@ class DBHelper {
         asyncCall();
       });
     })
-
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('GET', DBHelper.DATABASE_URL);
-    // xhr.onload = () => {
-    //   console.log(xhr)
-    //   if (xhr.status === 200) { // Got a success response from server!
-    //     const restaurants = JSON.parse(xhr.responseText);
-    //     callback(null, restaurants);
-    //   } else { // Oops!. Got an error from server.
-    //     const error = (`Request failed. Returned status of ${xhr.status}`);
-    //     console.log(error)
-    //     callback(error, null);
-    //   }
-    // };
-    // xhr.send();
   }
 
   /**
