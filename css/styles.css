@@ -219,7 +219,7 @@ nav h1 a {
   /*font-size: 10pt;*/
   font-size: 1em;
   margin: 1em 0 0;
-  padding: 0.5em 1.5em 0.5em;
+  padding: 0.5em 0.5em 0.5em;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
@@ -332,6 +332,13 @@ nav h1 a {
   color: #666;
 }
 
+@media (max-width: 325px) {
+  body, nav h1 a {
+    font-size: 0.9em;
+  }
+}
+
+
 @media (min-width: 768px) {
   body {
     font-size: 0.85em;
@@ -364,7 +371,13 @@ nav h1 a {
   }
   .filter-options select {
     font-size: 1.25em !important;
-  }  
+  }   
+}
+
+@media (min-width: 1200px) {
+  #restaurants-list li a, #restaurants-list li button, #reviews-container button {
+    padding: 0.5em 1.5em 0.5em;
+  } 
 }
 
 @media (orientation: landscape) {

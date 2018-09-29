@@ -148,6 +148,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  li.style.position = 'relative';
   const picture = document.createElement('picture');
   const image = document.createElement('img');
   const source = document.createElement('source');  
@@ -162,8 +163,17 @@ createRestaurantHTML = (restaurant) => {
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+  name.style.display = 'inline-block';
   name.id = `heading${restaurant.id}`;
   li.append(name);
+
+  const favoriteStar = document.createElement('span');
+  favoriteStar.style.fontSize = '3rem';
+  favoriteStar.style.position = 'absolute';
+  favoriteStar.style.right = '2%';
+  favoriteStar.style.lineHeight = 1;
+  favoriteStar.innerHTML = restaurant.is_favorite ? '&#9733' : '&#9734';  
+  li.append(favoriteStar);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
@@ -205,14 +215,10 @@ createRestaurantHTML = (restaurant) => {
       favorite.innerHTML = 'Mark Favorite';      
     }
   };  
-  const favoriteStar = document.createElement('span');
-  favoriteStar.style.fontSize = '3rem';
-  favoriteStar.style.float = 'right';
-  favoriteStar.style.lineHeight = 1;
-  favoriteStar.innerHTML = restaurant.is_favorite ? '&#9733' : '&#9734';
+
   li.append(more);
   li.append(favorite);
-  li.append(favoriteStar);
+
 
   return li;
 }
