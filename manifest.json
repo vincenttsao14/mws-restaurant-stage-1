@@ -3,13 +3,13 @@
   "name": "NY Restaurant Reviews",
   "icons": [
     {
-      "src": "/images/1-400x300.jpg",
-      "type": "image/jpg",
+      "src": "/images/1-400x300.webp",
+      "type": "image/webp",
       "sizes": "192x192"
     },
     {
-      "src": "/images/1-400x300.jpg",
-      "type": "image/jpg",
+      "src": "/images/1-400x300.webp",
+      "type": "image/webp",
       "sizes": "512x512"
     }
   ],

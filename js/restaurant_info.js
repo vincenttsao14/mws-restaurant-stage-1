@@ -91,10 +91,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.alt = `image of ${restaurant.name} restaurant`;
   const source1 = document.getElementById('source1');  
   source1.media = '(min-width: 1024px)';
-  source1.srcset = `img/${restaurant.id}-1600x1200.jpg`;  
+  source1.srcset = `img/${restaurant.id}-1600x1200.webp`;  
   const source2 = document.getElementById('source2');
   source2.media = '(min-width: 400px)';
-  source2.srcset = `img/${restaurant.id}.jpg 1x, img/${restaurant.id}-1600x1200.jpg 2x`;
+  source2.srcset = `img/${restaurant.id}.webp 1x, img/${restaurant.id}-1600x1200.webp 2x`;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
