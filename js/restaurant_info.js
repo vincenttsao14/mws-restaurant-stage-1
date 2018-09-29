@@ -117,12 +117,12 @@ fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
   title.innerHTML = 'Reviews';
   container.appendChild(title);
   const name = document.createElement('input');
-  name.name = 'name';
+  name.id = 'name';
   name.placeholder = 'Name';
   name.style.display = 'block';
   container.appendChild(name);
   const rating = document.createElement('input');
-  rating.name = 'rating';
+  rating.id = 'rating';
   rating.placeholder = 'Rating (1-5)';
   rating.style.minWidth = '100px';
   rating.type = 'number';  
@@ -131,8 +131,8 @@ fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
   rating.style.display = 'block';  
   container.appendChild(rating);
   const comment = document.createElement('textarea');
-  comment.name = 'comments';
-  comment.placeholder = 'Comment';
+  comment.id = 'comment';
+  comment.placeholder = 'Comment (optional)';
   comment.style.display = 'block';
   comment.rows = 4;    
   container.appendChild(comment);
@@ -141,22 +141,34 @@ fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
   review.innerHTML = 'Add Review';
   review.style.margin = '0 0 1em 0';
   review.onclick = (e) => {
-    let review = {
-      "restaurant_id": restaurant.id,
-      "name": 'hi',
-      "rating": 'hi',
-      "comments": 'hi'
-    };
-    fetch('http://localhost:1337/reviews', {
-      method: 'POST',
-      body: JSON.stringify(review)
-    }).then(response => {
-      return response.json();
-    }).then(data => {
-      console.log('send form data', data);
-      let ul = document.getElementById('reviews-list');
-      ul.appendChild(createReviewHTML(review));
-    })
+    let name = document.getElementById('name');
+    let rating = document.getElementById('rating');
+    let comment = document.getElementById('comment');
+    if (name.value && rating.value) {
+      let review = {
+        "restaurant_id": restaurant.id,
+        "name": name.value,
+        "rating": rating.value,
+        "comments": comment.value
+      };      
+      fetch('http://localhost:1337/reviews', {
+        method: 'POST',
+        body: JSON.stringify(review)
+      }).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log('send form data', data);
+        alert('Thanks for submitting a review!');
+        name.value = '';
+        rating.value = '';
+        comment.value = '';
+        let ul = document.getElementById('reviews-list');
+        ul.appendChild(createReviewHTML(review));
+      })      
+    } else {
+      alert('Please enter your name and give a rating!');
+    }
+
   };  
   container.appendChild(review);
 
