@@ -28,7 +28,11 @@ class DBHelper {
         });   
         upgradeDb.createObjectStore('reviews', {
           keyPath: 'id'
-        });           
+        });
+        upgradeDb.createObjectStore('pending', {
+          keyPath: 'id',
+          autoIncrement: true
+        });                      
       });
       dbPromise.then(function(db) {
         var tx = db.transaction('restaurants', 'readwrite');
@@ -63,7 +67,7 @@ class DBHelper {
         console.log('Added restaurants to restaurant IDB');
       });  
     }).catch(error => {
-      console.log('offline')
+      console.log('offline');
       idb.open('restaurant', 1).then(function(db) {
         var tx = db.transaction('restaurants');
         var store = tx.objectStore('restaurants');
@@ -173,6 +177,27 @@ class DBHelper {
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
+      idb.open('restaurant', 1).then(function(db) {    
+        var pendingtx = db.transaction('pending');
+        var pendingstore = pendingtx.objectStore('pending');
+        pendingstore.getAll().then(function(reviews) {
+          console.log(reviews);
+          for (let review of reviews) {
+            let reviewId = review.id;
+            delete review.id;
+            fetch('http://localhost:1337/reviews', {
+              method: 'POST',
+              body: JSON.stringify(review)
+            }).then(response => {
+              return response.json();
+            }).then(data => {
+              var pendingtx = db.transaction('pending', 'readwrite');
+              var pendingstore = pendingtx.objectStore('pending');
+              pendingstore.delete(reviewId);          
+            });            
+          }
+        });
+      });           
       if (error) {
         callback(error, null);
       } else {

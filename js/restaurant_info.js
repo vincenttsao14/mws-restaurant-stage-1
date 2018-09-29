@@ -42,6 +42,27 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
+    idb.open('restaurant', 1).then(function(db) {    
+      var pendingtx = db.transaction('pending');
+      var pendingstore = pendingtx.objectStore('pending');
+      pendingstore.getAll().then(function(reviews) {
+        console.log(reviews);
+        for (let review of reviews) {
+          let reviewId = review.id;
+          delete review.id;
+          fetch('http://localhost:1337/reviews', {
+            method: 'POST',
+            body: JSON.stringify(review)
+          }).then(response => {
+            return response.json();
+          }).then(data => {
+            var pendingtx = db.transaction('pending', 'readwrite');
+            var pendingstore = pendingtx.objectStore('pending');
+            pendingstore.delete(reviewId);
+          });            
+        }
+      });
+    });    
     DBHelper.fetchRestaurantById(id, (error, restaurant, reviews) => {
       self.restaurant = restaurant;
       self.reviews = reviews;
@@ -141,15 +162,24 @@ fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
   review.innerHTML = 'Add Review';
   review.style.margin = '0 0 1em 0';
   review.onclick = (e) => {
+    // for (let i = 1; i < 2; i++) {
+    // fetch(`http://localhost:1337/reviews/${i}`, {
+    //   method: 'DELETE'
+    // }).then(response => {
+    //   return response.json();
+    // }).then(data => {
+    //   console.log(data);
+    // })      
+    // } 
     let name = document.getElementById('name');
     let rating = document.getElementById('rating');
     let comment = document.getElementById('comment');
     if (name.value && rating.value) {
       let review = {
-        "restaurant_id": restaurant.id,
-        "name": name.value,
-        "rating": rating.value,
-        "comments": comment.value
+        'restaurant_id': restaurant.id,
+        'name': name.value,
+        'rating': parseInt(rating.value),
+        'comments': comment.value
       };      
       fetch('http://localhost:1337/reviews', {
         method: 'POST',
@@ -159,16 +189,27 @@ fillReviewsHTML = (restaurant = self.restaurant, reviews = self.reviews) => {
       }).then(data => {
         console.log('send form data', data);
         alert('Thanks for submitting a review!');
-        name.value = '';
-        rating.value = '';
-        comment.value = '';
-        let ul = document.getElementById('reviews-list');
-        ul.appendChild(createReviewHTML(review));
-      })      
+        idb.open('restaurant', 1).then(function(db) {
+          var tx = db.transaction('reviews', 'readwrite');
+          var store = tx.objectStore('reviews');
+          store.put(data);
+        });
+      }).catch(error => {
+        alert('Thanks for submitting a review offline!');
+        idb.open('restaurant', 1).then(function(db) {
+          var tx = db.transaction('pending', 'readwrite');
+          var store = tx.objectStore('pending');
+          store.put(review);
+        });
+      });    
+      name.value = '';
+      rating.value = '';
+      comment.value = '';
+      let ul = document.getElementById('reviews-list');
+      ul.appendChild(createReviewHTML(review));      
     } else {
       alert('Please enter your name and give a rating!');
     }
-
   };  
   container.appendChild(review);
 
