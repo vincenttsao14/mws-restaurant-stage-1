@@ -46,7 +46,6 @@ fetchRestaurantFromURL = (callback) => {
       var pendingtx = db.transaction('pending');
       var pendingstore = pendingtx.objectStore('pending');
       pendingstore.getAll().then(function(reviews) {
-        console.log(reviews);
         for (let review of reviews) {
           let reviewId = review.id;
           delete review.id;
