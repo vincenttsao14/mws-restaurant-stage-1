@@ -37,11 +37,11 @@ self.addEventListener('install', function(event) {
 	'img/8-1600x1200.webp',
 	'img/9-1600x1200.webp',
 	'img/10-1600x1200.webp',
-	'css/styles.css',
-	'js/dbhelper.js',
-	'js/main.js',
-	'js/idb.js',
-	'js/restaurant_info.js',
+	'css/styles.min.css',
+	'js/dbhelper.min.js',
+	'js/main.min.js',
+	'js/idb.min.js',
+	'js/restaurant_info.min.js',
 	'index.html',
 	'restaurant.html'
   ];
