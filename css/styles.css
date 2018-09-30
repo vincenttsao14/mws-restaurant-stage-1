@@ -338,7 +338,6 @@ nav h1 a {
   }
 }
 
-
 @media (min-width: 768px) {
   body {
     font-size: 0.85em;
@@ -357,27 +356,9 @@ nav h1 a {
     width: 23%;
     margin: 1% calc(17%/6);
   }
-  #restaurant-address {
-    font-size: 1.25em;
-  }
-  #restaurant-hours {
-    font-size: 1.25em;
-  }
-  #reviews-list {
-    font-size: 1.25em;
-  }
-  #breadcrumb {
-    font-size: 1.25em;
-  }
-  .filter-options select {
+  #restaurant-address, #restaurant-hours, #reviews-list, #breadcrumb, .filter-options select {
     font-size: 1.25em !important;
-  }   
-}
-
-@media (min-width: 1200px) {
-  #restaurants-list li a, #restaurants-list li button, #reviews-container button {
-    padding: 0.5em 1.5em 0.5em;
-  } 
+  }
 }
 
 @media (orientation: landscape) {
